@@ -5,12 +5,12 @@ const protectRoute=async(req,res,next)=>{
     try {
         const token=req.cookies.jwt;
         if(!token){
-            return res.status(40).json({error: "Unauthorized - no Token Provided"});
+            return res.status(401).json({error: "Unauthorized - no Token Provided"});
         }
         const decoded=jwt.verify(token,process.env.JWT_SECRET);
 
         if(!decoded){
-            return res.status(40).json({error: "Invalid token"});
+            return res.status(401).json({error: "Invalid token"});
         }
 
         const user=await User.findById(decoded.userId).select("-password");
